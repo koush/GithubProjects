@@ -66,8 +66,22 @@ GithubProjects.FileExtensionsToBrushes = {
 	'.xsd' : 'xml'
 };
 
+GithubProjects.all = function() {
+ 	$(document).ready(function() {
+		var files = $(".githubfile");
+		if (!files) {
+			return;
+		}
+		$.each(files, function(i, fileElement) {
+			var repository = fileElement.attributes.repository["value"];
+			var user = fileElement.attributes.user["value"];
+			var file = fileElement.attributes.file["value"];
+			GithubProjects.ShowFile(user, repository, file, fileElement); 
+		});
+	});
+};
 
-GithubProjects.ShowFile = function(user, repository, file, elementId) {
+GithubProjects.ShowFile = function(user, repository, file, element) {
 	var githubUrl = "http://github.com/api/v2/json/";
 	var branchesUrl = githubUrl + "repos/show/" + user + "/" + repository + "/branches";
 
@@ -84,17 +98,16 @@ GithubProjects.ShowFile = function(user, repository, file, elementId) {
 				dataType: "jsonp",
 				success: function(data) {
 					var contents = data.blob.data;
-					var element = $("#" + elementId);
 					if ($.browser.mozilla) {
-						element[0].textContent = contents;
+						element.textContent = contents;
 					} else {
-						element[0].innerText = contents;
+						element.innerText = contents;
 					}
 					var match = file.match(/\.[^.]+$/);
 					if (match != null) {
 						var brush = GithubProjects.FileExtensionsToBrushes[match[0]];
 						if (brush != null) {
-							element.addClass("brush:" + brush);
+							$(element).addClass("brush:" + brush);
 							SyntaxHighlighter.all();
 						}
 					}
