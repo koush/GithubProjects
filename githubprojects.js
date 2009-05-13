@@ -13,7 +13,7 @@ GithubProjects.ShowRepository = function(user, elementId) {
 		dataType: "jsonp",
 		success: function(msg) {
 			var proj = $("#" + elementId);
-			var content = "<table>";
+			var content = "<table cellspacing='0'>";
 			var background = false;
 			$.each(msg.repositories, function(i, val) {
 				var githubUserUrl = "http://github.com/" + user + "/";
