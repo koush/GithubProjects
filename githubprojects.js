@@ -66,19 +66,30 @@ GithubProjects.FileExtensionsToBrushes = {
 	'.xsd' : 'xml'
 };
 
-GithubProjects.all = function() {
- 	$(document).ready(function() {
-		var files = $(".githubfile");
-		if (!files) {
-			return;
-		}
-		$.each(files, function(i, fileElement) {
-			var repository = fileElement.attributes.repository["value"];
-			var user = fileElement.attributes.user["value"];
-			var file = fileElement.attributes.file["value"];
-			GithubProjects.ShowFile(user, repository, file, fileElement); 
-		});
+GithubProjects.Loaded = false;
+
+GithubProjects.Fetch = function() {
+	var files = $(".githubfile");
+	if (!files) {
+		return;
+	}
+	$.each(files, function(i, fileElement) {
+		var repository = fileElement.attributes.repository["value"];
+		var user = fileElement.attributes.user["value"];
+		var file = fileElement.attributes.file["value"];
+		GithubProjects.ShowFile(user, repository, file, fileElement); 
 	});
+};
+
+GithubProjects.all = function() {
+	if (!GithubProjects.Loaded) {
+		GithubProjects.Loaded = true;
+	 	$(document).ready(function() {
+			GithubProjects.Fetch();
+		});
+	} else {
+		GithubProjects.Fetch();
+	}
 };
 
 GithubProjects.ShowFile = function(user, repository, file, element) {
@@ -108,7 +119,8 @@ GithubProjects.ShowFile = function(user, repository, file, element) {
 						var brush = GithubProjects.FileExtensionsToBrushes[match[0]];
 						if (brush != null) {
 							$(element).addClass("brush:" + brush);
-							SyntaxHighlighter.all();
+							//SyntaxHighlighter.all();
+							SyntaxHighlighter.highlight(null, element);
 						}
 					}
 				}
