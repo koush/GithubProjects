@@ -22,7 +22,7 @@ GithubProjects.ShowRepository = function(user, elementId) {
 				var bgcolor = background ? "bgcolor='#EFEFEF'" : "";
 				var name = val.name;
 				
-				if (val.homepage != null) {
+				if (val.homepage != null && val.homepage != '') {
 					var repo = url;
 					url = val.homepage;
 					name = "<a href='__URL__'>__NAME__</a><br/><font size='-2'><a href='__URL__'>[Home Page]</a><br/><a href='__REPO__'>[Source Code]</a></font>".replace("__NAME__", name).replace("__URL__", url).replace("__REPO__", repo);
