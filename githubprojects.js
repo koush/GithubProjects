@@ -25,12 +25,12 @@ GithubProjects.ShowRepository = function(user, elementId) {
 				if (val.homepage != null && val.homepage != '') {
 					var repo = url;
 					url = val.homepage;
-					name = "<a href='__URL__'>__NAME__</a><br/><font size='-2'><a href='__URL__'>[Home Page]</a><br/><a href='__REPO__'>[Source Code]</a></font>".replace("__NAME__", name).replace("__URL__", url).replace("__REPO__", repo);
+					name = "<a href='__URL__'>__NAME__</a><br/><font size='-2'><a href='__URL__'>[Home Page]</a><br/><a href='__REPO__'>[Source Code]</a></font>".replace("__REPO__", repo).replace(/__NAME__/g, name);
 				}
 				else {
-					name = "<a href='__URL__'>__NAME__</a>".replace("__NAME__", name).replace("__URL__", url);
+					name = "<a href='__URL__'>__NAME__</a>".replace(/__NAME__/g, name);;
 				}
-				var item = "<tr align='center' __BGCOLOR__><td width='200'>__NAME__</td><td><a href='__URL__'><img border='0' style='max-width:200px; max-height:200px; visibility:hidden;' src='__IMG__' onload='GithubProjects.showImage(this)'/></a></td><td>__DESCRIPTION__</td></tr>".replace("__NAME__", name).replace("__DESCRIPTION__", val.description).replace(/__IMG__/g, img).replace("__URL__", url).replace("__BGCOLOR__", bgcolor);
+				var item = "<tr align='center' __BGCOLOR__><td width='200'>__NAME__</td><td><a href='__URL__'><img border='0' style='max-width:200px; max-height:200px; visibility:hidden;' src='__IMG__' onload='GithubProjects.showImage(this)'/></a></td><td>__DESCRIPTION__</td></tr>".replace("__NAME__", name).replace("__DESCRIPTION__", val.description).replace(/__IMG__/g, img).replace(/__URL__/g, url).replace("__BGCOLOR__", bgcolor).replace(/__NAME__/g, name);
 				content += item;
 				background = !background;
 			});
