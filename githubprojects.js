@@ -2,7 +2,7 @@ var GithubProjects = {};
 
 GithubProjects.showImage = function(img) {
 	img.style.visibility = 'visible';
-}
+};
 
 GithubProjects.ShowRepository = function(user, elementId) {
 	var githubUrl = "http://github.com/api/v2/json/";
@@ -38,4 +38,68 @@ GithubProjects.ShowRepository = function(user, elementId) {
 			proj[0].innerHTML = content;
 		}
 	})
+};
+
+GithubProjects.FileExtensionsToBrushes = {
+	'.cs' : 'c-sharp',
+	'.java' : 'java',
+	'.sh' : 'bash',
+	'.cpp' : 'cpp',
+	'.c' : 'c',
+	'.pas' : 'pas',
+	'.groovy' : 'groovy',
+	'.js' : 'js',
+// Perl seems to be broken currently.
+//	'.pl' : 'pl',
+//	'.perl' : 'perl',
+	'.php' : 'php',
+	'.txt' : 'text',
+	'.py' : 'py',
+	'.rb' : 'ruby',
+	'.scala' : 'scala',
+	'.sql' : 'sql',
+	'.vb' : 'vb',
+	'.xml' : 'xml',
+	'.html' : 'html',
+	'.xslt' : 'xslt',
+	'.xhtml' : 'xhtml',
+	'.xsd' : 'xml'
+};
+
+
+GithubProjects.ShowFile = function(user, repository, file, elementId) {
+	var githubUrl = "http://github.com/api/v2/json/";
+	var branchesUrl = githubUrl + "repos/show/" + user + "/" + repository + "/branches";
+
+	$.ajax({
+		url: branchesUrl,
+		type: "GET",
+		dataType: "jsonp",
+		success: function(msg) {
+			var sha = msg.branches.master;
+			var shaUrl = githubUrl + "blob/show/" + user + "/" + repository + "/" + sha + "/" + file;
+			$.ajax({
+				url: shaUrl,
+				type: "GET",
+				dataType: "jsonp",
+				success: function(data) {
+					var contents = data.blob.data;
+					var element = $("#" + elementId);
+					if ($.browser.mozilla) {
+						element[0].textContent = contents;
+					} else {
+						element[0].innerText = contents;
+					}
+					var match = file.match(/\.[^.]+$/);
+					if (match != null) {
+						var brush = GithubProjects.FileExtensionsToBrushes[match[0]];
+						if (brush != null) {
+							element.addClass("brush:" + brush);
+							SyntaxHighlighter.all();
+						}
+					}
+				}
+			});
+		}
+	});
 };
