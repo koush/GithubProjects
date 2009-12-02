@@ -53,7 +53,6 @@ GithubProjects.FileExtensionsToBrushes = {
 //	'.pl' : 'pl',
 //	'.perl' : 'perl',
 	'.php' : 'php',
-	'.txt' : 'text',
 	'.py' : 'py',
 	'.rb' : 'ruby',
 	'.scala' : 'scala',
