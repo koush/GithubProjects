@@ -73,10 +73,11 @@ GithubProjects.Fetch = function() {
 		return;
 	}
 	$.each(files, function(i, fileElement) {
-		var repository = fileElement.attributes.repository["value"];
 		var user = fileElement.attributes.user["value"];
+		var repository = fileElement.attributes.repository["value"];
+		var branch = fileElement.attributes.branch["value"];
 		var file = fileElement.attributes.file["value"];
-		GithubProjects.ShowFile(user, repository, file, fileElement); 
+		GithubProjects.ShowFile(user, repository, branch, file, fileElement); 
 	});
 };
 
@@ -91,7 +92,7 @@ GithubProjects.all = function() {
 	}
 };
 
-GithubProjects.ShowFile = function(user, repository, file, element, branch) {
+GithubProjects.ShowFile = function(user, repository, branch, file, element) {
 	var githubUrl = "http://github.com/api/v2/json/";
 	var branchesUrl = githubUrl + "repos/show/" + user + "/" + repository + "/branches";
 
