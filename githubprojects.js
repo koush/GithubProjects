@@ -91,7 +91,7 @@ GithubProjects.all = function() {
 	}
 };
 
-GithubProjects.ShowFile = function(user, repository, file, element) {
+GithubProjects.ShowFile = function(user, repository, file, element, branch) {
 	var githubUrl = "http://github.com/api/v2/json/";
 	var branchesUrl = githubUrl + "repos/show/" + user + "/" + repository + "/branches";
 
@@ -100,7 +100,10 @@ GithubProjects.ShowFile = function(user, repository, file, element) {
 		type: "GET",
 		dataType: "jsonp",
 		success: function(msg) {
-			var sha = msg.branches["master"];
+		  if (branch == null) {
+		    branch = "master";
+		  }
+			var sha = msg.branches[branch];
 			var shaUrl = githubUrl + "blob/show/" + user + "/" + repository + "/" + sha + "/" + file;
 			$.ajax({
 				url: shaUrl,
