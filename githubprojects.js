@@ -100,7 +100,7 @@ GithubProjects.ShowFile = function(user, repository, file, element) {
 		type: "GET",
 		dataType: "jsonp",
 		success: function(msg) {
-			var sha = msg.branches.master;
+			var sha = msg.branches["master"];
 			var shaUrl = githubUrl + "blob/show/" + user + "/" + repository + "/" + sha + "/" + file;
 			$.ajax({
 				url: shaUrl,
